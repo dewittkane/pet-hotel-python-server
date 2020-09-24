@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# ignore user name for py db call
+.connectionFunction.py
+
 # C extensions
 *.so
 
