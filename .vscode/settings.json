@@ -1,3 +1,7 @@
 {
+<<<<<<< HEAD
+    "python.pythonPath": "venv/bin/python3"
+=======
     "python.pythonPath": "/Users/dewitt/python/pet-hotel-python-server/venv/bin/python3"
+>>>>>>> 11445518687d2ed58b9c260c62209e82ffe12cfd
 }
