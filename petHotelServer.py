@@ -20,7 +20,8 @@ def getPost():
         return f"posted {(data['petName'])}", 201
     elif (request.method == 'GET'):
         cur = conn.cursor()
-        cur.execute("SELECT * FROM pet;")
+        queryText = 'SELECT "owner".name, "pet".pet_name, "pet".breed, "pet".color, "pet".checked_in from "pet" JOIN "owner" ON "pet".owner_id = "owner".id;'
+        cur.execute(queryText)
         records = cur.fetchall()
         print(records)
         cur.close()
