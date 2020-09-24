@@ -33,7 +33,6 @@ def putDelete(id):
         # check-in/-out put request
         inOrOut = request.form["check"]
         if (inOrOut == 'in'):
-            # inOrOut = "we're checking in"
             queryText = 'UPDATE "pet" SET "checked_in" = TRUE WHERE id = %s;'
             cur.execute(queryText, (id))
             conn.commit()
@@ -46,8 +45,6 @@ def putDelete(id):
             conn.commit()
             cur.close()
             return "checked out!", 200
-        # return f"checked {}!" + id
-
     elif (request.method == 'DELETE'):
         cur = conn.cursor()
         petId = id
@@ -73,12 +70,17 @@ def getPostOwner():
         cur.close()
         return f"posted {(data['name'])}", 201
     elif (request.method == 'GET'):
-        return 'GET pie', 201
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM owner;")
+        records = cur.fetchall()
+        print(records)
+        cur.close()
+        return jsonify(records), 201
     
 @app.route('/owner/<id>', methods=['PUT', 'DELETE'])
 def putDeleteOwner(id):
     if (request.method == 'PUT'):
-        return request.form["pie"] + id 
+        return "we don't put here", 200
     elif (request.method == 'DELETE'):
         cur = conn.cursor()
         queryText = 'DELETE FROM "owner" WHERE id = %s'
