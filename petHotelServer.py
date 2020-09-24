@@ -1,23 +1,26 @@
 from flask import Flask, request, jsonify
 
+from connectionFunction import conn
+
 import psycopg2 
 import psycopg2.extras 
 
-conn = psycopg2.connect("dbname=pet_hotel user=karlbeck", cursor_factory=psycopg2.extras.RealDictCursor)
+
+conn = psycopg2.connect("dbname=pet_hotel user=emersonaagaard", cursor_factory=psycopg2.extras.RealDictCursor)
 
 app = Flask(__name__)
 
 @app.route('/pets', methods=['GET','POST'])
 def getPost():
     if (request.method == 'POST'):
-       request.form
+        request.form
     elif (request.method == 'GET'):
         cur = conn.cursor()
         cur.execute("SELECT * FROM pet;")
         records = cur.fetchall()
         print(records)
         cur.close()
-        return jsonify(records)
+        return jsonify(records), 201
 
 
 @app.route('/pets/<id>', methods=['PUT', 'DELETE'])
