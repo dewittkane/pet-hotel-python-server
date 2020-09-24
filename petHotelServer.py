@@ -11,7 +11,13 @@ if __name__ == "__main__":
 @app.route('/pets', methods=['GET','POST'])
 def getPost():
     if (request.method == 'POST'):
-        request.form
+        cur = conn.cursor()
+        data = request.form
+        queryText = 'INSERT INTO "pet" ("owner_id", "pet_name", "breed", "color") VALUES (%s, %s, %s, %s);'
+        cur.execute(queryText, (data['ownerId'], data['petName'], data['petBreed'], data['petColor'] ,))
+        conn.commit()
+        cur.close()
+        return f"posted {(data['petName'])}", 201
     elif (request.method == 'GET'):
         cur = conn.cursor()
         cur.execute("SELECT * FROM pet;")
@@ -19,6 +25,16 @@ def getPost():
         print(records)
         cur.close()
         return jsonify(records), 201
+
+        # if (request.method == 'POST'):
+        # data = request.form
+        # # print(owner_name)
+        # cur = con.cursor()
+        # queryInsertText = "insert into owners (name) values (%s);"
+        # cur.execute(queryInsertText, (data["name"], ))
+        # con.commit()
+        # cur.close()
+        # return jsonify(data["name"]), 201
 
 
 @app.route('/pets/<id>', methods=['PUT', 'DELETE'])
