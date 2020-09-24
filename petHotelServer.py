@@ -26,17 +26,6 @@ def getPost():
         cur.close()
         return jsonify(records), 201
 
-        # if (request.method == 'POST'):
-        # data = request.form
-        # # print(owner_name)
-        # cur = con.cursor()
-        # queryInsertText = "insert into owners (name) values (%s);"
-        # cur.execute(queryInsertText, (data["name"], ))
-        # con.commit()
-        # cur.close()
-        # return jsonify(data["name"]), 201
-
-
 @app.route('/pets/<id>', methods=['PUT', 'DELETE'])
 def putDelete(id):
     if (request.method == 'PUT'):
@@ -76,7 +65,13 @@ def putDelete(id):
 @app.route('/owner', methods=['GET','POST'])
 def getPostOwner():
     if (request.method == 'POST'):
-        request.form
+        cur = conn.cursor()
+        data = request.form
+        queryText = 'INSERT INTO "owner" ("name") VALUES (%s);'
+        cur.execute(queryText, (data['name'],))
+        conn.commit()
+        cur.close()
+        return f"posted {(data['name'])}", 201
     elif (request.method == 'GET'):
         return 'GET pie', 201
     
@@ -85,6 +80,12 @@ def putDeleteOwner(id):
     if (request.method == 'PUT'):
         return request.form["pie"] + id 
     elif (request.method == 'DELETE'):
+        cur = conn.cursor()
+        queryText = 'DELETE FROM "owner" WHERE id = %s'
+        cur.execute(queryText, (id))
+        conn.commit()
+        cur.close
+        return "deleted owner", 200
         # return request.args.get('pets')
         return id
 
