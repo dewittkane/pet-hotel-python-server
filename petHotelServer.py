@@ -1,4 +1,9 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
+
+import psycopg2 
+import psycopg2.extras 
+
+conn = psycopg2.connect("dbname=pet_hotel user=karlbeck", cursor_factory=psycopg2.extras.RealDictCursor)
 
 app = Flask(__name__)
 
@@ -7,8 +12,14 @@ def getPost():
     if (request.method == 'POST'):
        request.form
     elif (request.method == 'GET'):
-        return 'GET pie', 201
-    
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM pet;")
+        records = cur.fetchall()
+        print(records)
+        cur.close()
+        return jsonify(records)
+
+
 @app.route('/pets/<id>', methods=['PUT', 'DELETE'])
 def putDelete(id):
     if (request.method == 'PUT'):
@@ -31,5 +42,7 @@ def putDeleteOwner(id):
     elif (request.method == 'DELETE'):
         # return request.args.get('pets')
         return id
+
+
 
 
