@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# connection function - lets us all use different user names
+# connectionFunction.py

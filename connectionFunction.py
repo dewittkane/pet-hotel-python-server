@@ -1,0 +1,4 @@
+import psycopg2 
+import psycopg2.extras 
+
+conn = psycopg2.connect("dbname=pet_hotel user=dewitt", cursor_factory=psycopg2.extras.RealDictCursor)

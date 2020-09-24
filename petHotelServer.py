@@ -1,9 +1,7 @@
 from flask import Flask, request, jsonify
-
-import psycopg2 
-import psycopg2.extras 
-
-conn = psycopg2.connect("dbname=pet_hotel user=karlbeck", cursor_factory=psycopg2.extras.RealDictCursor)
+from connectionFunction import conn
+# import psycopg2 
+# import psycopg2.extras 
 
 app = Flask(__name__)
 
