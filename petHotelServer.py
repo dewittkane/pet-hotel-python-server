@@ -22,7 +22,7 @@ def getPost():
 
     elif (request.method == 'GET'):
         cur = conn.cursor()
-        queryText = 'SELECT "owner".name, "pet".pet_name, "pet".breed, "pet".color, "pet".checked_in from "pet" JOIN "owner" ON "pet".owner_id = "owner".id;'
+        queryText = 'SELECT "owner".name, "pet".id, "pet".pet_name, "pet".breed, "pet".color, "pet".checked_in from "pet" JOIN "owner" ON "pet".owner_id = "owner".id;'
         cur.execute(queryText)
         records = cur.fetchall()
         print(records)
