@@ -14,19 +14,18 @@ def getPost():
         
         cur = conn.cursor()
         data = request.json
-        # print("testing")
-        # print("try this", data)
-        queryText = 'INSERT INTO "pet" ("owner_id", "pet_name", "breed", "color") VALUES (%s, %s, %s, %s);'
-        cur.execute(queryText, (data['ownerId'], data['petName'], data['petBreed'], data['petColor'] ,))
+
+        print("showing form data", data)
+        queryText = 'INSERT INTO "pet" ("owner_id", "pet_name", "breed", "color") VALUES (%s, %s, %s, %s) RETURNING *;'
+        cur.execute(queryText, (data['owner'], data['pet'], data['breed'], data['color'],))
         conn.commit()
         cur.close()
-        return "great job", 201
-        # print("we posted")
-        # return "we posted", 201
+        return "created"
 
     elif (request.method == 'GET'):
         cur = conn.cursor()
         queryText = 'SELECT "pet".*, "owner".name from "pet" JOIN "owner" ON "pet".owner_id = "owner".id ORDER BY "pet".id;'
+
         cur.execute(queryText)
         records = cur.fetchall()
         print(records)
