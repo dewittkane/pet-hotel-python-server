@@ -11,8 +11,10 @@ if __name__ == "__main__":
 @app.route('/pets', methods=['GET','POST'])
 def getPost():
     if (request.method == 'POST'):
+        
         cur = conn.cursor()
         data = request.json
+
         print("showing form data", data)
         queryText = 'INSERT INTO "pet" ("owner_id", "pet_name", "breed", "color") VALUES (%s, %s, %s, %s) RETURNING *;'
         cur.execute(queryText, (data['owner'], data['pet'], data['breed'], data['color'],))
@@ -22,7 +24,8 @@ def getPost():
 
     elif (request.method == 'GET'):
         cur = conn.cursor()
-        queryText = 'SELECT "owner".name, "pet".id, "pet".pet_name, "pet".breed, "pet".color, "pet".checked_in from "pet" JOIN "owner" ON "pet".owner_id = "owner".id;'
+        queryText = 'SELECT "pet".*, "owner".name from "pet" JOIN "owner" ON "pet".owner_id = "owner".id ORDER BY "pet".id;'
+
         cur.execute(queryText)
         records = cur.fetchall()
         print(records)
@@ -34,7 +37,7 @@ def putDelete(id):
     if (request.method == 'PUT'):
         cur = conn.cursor()
         # check-in/-out put request
-        inOrOut = request.form["check"]
+        inOrOut = request.json["check"]
         if (inOrOut == 'in'):
             queryText = 'UPDATE "pet" SET "checked_in" = TRUE WHERE id = %s;'
             cur.execute(queryText, (id))
@@ -48,6 +51,7 @@ def putDelete(id):
             conn.commit()
             cur.close()
             return "checked out!", 200
+
     elif (request.method == 'DELETE'):
         cur = conn.cursor()
         petId = id
